@@ -23,11 +23,11 @@
 	let typstInitializing = false;
 
 	function shuffleArray<T>(array: T[]): T[] {
-		const shuffled = [...array];
+        const shuffled = [...array];
 		for (let i = shuffled.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-		}
+        }
 		return shuffled;
 	}
 
@@ -280,6 +280,8 @@ $ x $
 				<ul>
 					<li>No $ signs needed</li>
                     <li>All formulas are rendered in display style</li>
+                    <li>Use <code>quad (mod n)</code> for modulo (equivalent to LaTeX's <code>\pmod</code>)</li>
+                    <li>Use <code>op()</code> custom operators (equivalent to LaTeX's <code>\operatorname</code>)</li>
 					<li>Harder problems are worth more points</li>
                     <li>Refer to the <a href="https://typst.app/docs/reference/symbols/sym/" target="_blank" rel="noopener noreferrer">symbol reference</a> to quickly look up unknown symbols</li>
 				</ul>
@@ -318,7 +320,7 @@ $ x $
 
 			{#if currentFormula}
 				<div class="problem-header">
-					<h3>Problem {problemNumber}: {currentFormula.category} ({Math.ceil(currentFormula.typst.length / 10)} points)</h3>
+					<h3>Problem {problemNumber}: {currentFormula.title} ({Math.ceil(currentFormula.typst.length / 10)} points)</h3>
 				</div>
 				<div class="formula-display">
 					<h4 class="section-header">Try to create the following formula:</h4>
@@ -466,15 +468,15 @@ $ x $
 		font-size: 1.1rem;
 		color: #000;
 		margin: 0.3rem 0;
-	}
+    }
 
-	.hints code {
-		background: #f5f5f5;
-		padding: 0.2rem 0.4rem;
-		border-radius: 3px;
-		font-family: 'Roboto Mono', 'Courier New', monospace;
-		font-size: 0.9em;
-	}
+    .hints code {
+        background: #f5f5f5;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-family: 'Roboto Mono', 'Courier New', monospace;
+        font-size: 0.9em;
+    }
 
 	.end-screen {
 		text-align: center;
@@ -555,12 +557,7 @@ $ x $
 		color: #000;
 	}
 
-	.stats {
-		display: flex;
-		gap: 2rem;
-	}
-
-	.score, .accuracy {
+	.score {
 		font-size: 1rem;
 		font-weight: normal;
 		color: #000;
@@ -584,43 +581,6 @@ $ x $
 
 	.formula-box {
 		margin-bottom: 0.5rem;
-	}
-
-	.formula-info {
-		display: flex;
-		gap: 0.5rem;
-		align-items: center;
-	}
-
-	.difficulty {
-		padding: 0.2rem 0.5rem;
-		border-radius: 3px;
-		font-size: 0.8rem;
-		font-weight: bold;
-		text-transform: uppercase;
-	}
-
-	.difficulty-easy {
-		background: #2ecc71;
-		color: white;
-	}
-
-	.difficulty-medium {
-		background: #f39c12;
-		color: white;
-	}
-
-	.difficulty-hard {
-		background: #e74c3c;
-		color: white;
-	}
-
-	.category {
-		background: #3498db;
-		color: white;
-		padding: 0.2rem 0.5rem;
-		border-radius: 3px;
-		font-size: 0.8rem;
 	}
 
 	.input-area {
@@ -666,21 +626,6 @@ $ x $
 		font-style: italic;
 	}
 
-	.submit-btn {
-		background: #27ae60;
-		color: white;
-		border: none;
-		padding: 0.7rem 1.5rem;
-		font-size: 1rem;
-		border-radius: 5px;
-		cursor: pointer;
-		transition: background 0.3s;
-	}
-
-	.submit-btn:hover {
-		background: #229954;
-	}
-
 	.final-stats {
 		margin: 1rem 0;
 	}
@@ -689,11 +634,6 @@ $ x $
 		font-size: 1.2rem;
 		font-weight: normal;
 		color: #000;
-	}
-
-	.final-accuracy, .attempts {
-		font-size: 1.1rem;
-		margin: 0.5rem 0;
 	}
 
 	.github-link {
