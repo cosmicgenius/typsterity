@@ -723,6 +723,27 @@ export const formulas: Formula[] = [
     {
         title: "Cartan's magic formula",
         typst: String.raw`cal(L)_X = d compose iota_X + iota_X compose d`
+    },
+    // Custom, will add more
+    {
+        title: "Fundamental Theorem of Finitely Generated Abelian Groups",
+        typst: String.raw`A tilde.equiv ZZ^n plus.circle ZZ\/q_1 ZZ plus.circle dots.c ZZ\/q_t ZZ`
+    },
+    {
+        title: "Rank-Nullity Theorem",
+        typst: String.raw`dim(ker T) + dim(im T) = dim(op("domain") T)`
+    },
+    {
+        title: "Axiom of Choice",
+        typst: String.raw`forall X [emptyset in.not X arrow.double.long.r exists f : X -> union.big_(A in X) A, forall A in X (f(A) in A)]`
+    },
+    {
+        title: "Tensor-Hom Adjunction",
+        typst: String.raw`op("Hom")(A times.circle B, C) tilde.equiv op("Hom")(A, op("Hom")(B, C))`
+    },
+    {
+        title: "Column Orthogonality in Character Tables",
+        typst: String.raw`sum_(rho "irrep") chi_rho(g) overline(chi_rho(h)) = cases(|C_G(g)| "if" C_G(g) = C_G(h), 0)`
     }
 ];
 
