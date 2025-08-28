@@ -65,7 +65,7 @@
 			const formulaClean = formula.replace(/^\$|\$$/g, '').trim();
 			const compactTemplate = `
 #set page(width: auto, height: auto, margin: 5pt)
-#set text(size: 14pt)
+#set text(size: 18pt)
 #set math.equation(numbering: none)
 $ ${formulaClean} $
 			`.trim();
