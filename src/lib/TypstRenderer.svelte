@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { initializeTypst, getTypstInstance } from './typstLoader';
 
 	export let formula: string = '';
 	export let width: number = 400;
@@ -10,47 +11,18 @@
 	let isLoading = true;
 	let error: string = '';
 
-	let initPromise: Promise<any> | null = null;
-
 	onMount(async () => {
-		// Prevent multiple initializations
-		if (initPromise) return initPromise;
-
-		initPromise = (async () => {
-			try {
-				// Import the Typst.ts API
-				const { $typst } = await import('@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs');
-
-				// Only configure if not already configured
-				try {
-					$typst.setCompilerInitOptions({
-						getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm')
-					});
-				} catch (e) {
-					console.log('Compiler already initialized, skipping...');
-				}
-
-				try {
-					$typst.setRendererInitOptions({
-						getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm')
-					});
-				} catch (e) {
-					console.log('Renderer already initialized, skipping...');
-				}
-
-				typstInstance = $typst;
-				isLoading = false;
-				if (formula) {
-					await renderFormula();
-				}
-			} catch (err) {
-				console.error('Failed to initialize Typst renderer:', err);
-				error = `Failed to load Typst renderer: ${err.message}`;
-				isLoading = false;
+		try {
+			typstInstance = await initializeTypst();
+			isLoading = false;
+			if (formula) {
+				await renderFormula();
 			}
-		})();
-
-		return initPromise;
+		} catch (err) {
+			console.error('Failed to initialize Typst renderer:', err);
+			error = `Failed to load Typst renderer: ${err.message}`;
+			isLoading = false;
+		}
 	});
 
 	async function renderFormula() {

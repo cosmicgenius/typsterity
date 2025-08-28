@@ -3,6 +3,7 @@
 	import TypstRenderer from '$lib/TypstRenderer.svelte';
 	import { formulas, type Formula } from '$lib/formulas';
 	import { compareFormulasByRendering } from '$lib/formulaValidator';
+	import { initializeTypst, isReady, isInitializing } from '$lib/typstLoader';
 
 	let gameStarted = false;
 	let gameEnded = false;
@@ -19,8 +20,6 @@
 	let autoCheckController: AbortController | null = null;
 	let autoCheckTimeout: NodeJS.Timeout | null = null;
 	let isAutoChecking = false;
-	let typstReady = false;
-	let typstInitializing = false;
 
 	function shuffleArray<T>(array: T[]): T[] {
         const shuffled = [...array];
@@ -205,39 +204,10 @@
 
 	// Preload Typst renderer in background
 	async function preloadTypst() {
-		if (typstReady || typstInitializing) return;
-
-		typstInitializing = true;
-		console.log('🚀 Preloading Typst renderer...');
-
 		try {
-			// Import and initialize Typst
-			const { $typst } = await import('@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs');
-
-			// Configure WASM modules
-			$typst.setCompilerInitOptions({
-				getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm')
-			});
-			$typst.setRendererInitOptions({
-				getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm')
-			});
-
-			// Test render a simple formula to fully initialize
-			const testTemplate = `
-#set page(width: auto, height: auto, margin: 5pt)
-#set text(size: 14pt)
-#set math.equation(numbering: none)
-$ x $
-			`.trim();
-
-			await $typst.svg({ mainContent: testTemplate });
-
-			typstReady = true;
-			console.log('✅ Typst renderer preloaded successfully!');
+			await initializeTypst();
 		} catch (error) {
 			console.error('❌ Failed to preload Typst:', error);
-		} finally {
-			typstInitializing = false;
 		}
 	}
 
@@ -267,12 +237,12 @@ $ x $
 			<p class="description">Type as many formulas as you can in three minutes.</p>
 
 			<div class="game-modes">
-				{#if typstInitializing}
+				{#if $isInitializing}
 					<p class="loading-text">Loading Typst renderer...</p>
-				{:else if !typstReady}
+				{:else if !$isReady}
 					<p class="error-text">Failed to load Typst renderer. Please refresh the page.</p>
 				{/if}
-				<button class="btn mode-btn" on:click={startGame} disabled={!typstReady}>Timed Game</button>
+				<button class="btn mode-btn" on:click={startGame} disabled={!$isReady}>Timed Game</button>
 			</div>
 
 			<div class="hints">

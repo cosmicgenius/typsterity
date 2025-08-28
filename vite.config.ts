@@ -14,5 +14,9 @@ export default defineConfig({
 		fs: {
 			allow: ['..']
 		}
-	}
+	},
+	assetsInclude: [
+		'**/typst_ts_web_compiler_bg.wasm',
+		'**/typst_ts_renderer_bg.wasm'
+	]
 });
