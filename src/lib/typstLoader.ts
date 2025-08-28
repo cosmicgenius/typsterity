@@ -8,9 +8,9 @@ import { writable } from 'svelte/store';
 let typstInstance: any = null;
 let initPromise: Promise<any> | null = null;
 
-// Reactive stores for UI state
+// Reactive stores for UI state  
 export const isReady = writable(false);
-export const isInitializing = writable(false);
+export const isInitializing = writable(true); // Start as true to show loading initially
 
 export async function initializeTypst(): Promise<any> {
 	// Return existing instance if already initialized
