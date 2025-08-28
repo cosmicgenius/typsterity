@@ -15,6 +15,7 @@
 	let currentFormulaIndex = 0;
 	let problemNumber = 1;
 	let completedProblems = 0;
+	let showToast = false;
 	let autoCheckController: AbortController | null = null;
 	let autoCheckTimeout: NodeJS.Timeout | null = null;
 	let isAutoChecking = false;
@@ -126,6 +127,23 @@
 		const mins = Math.floor(seconds / 60);
 		const secs = seconds % 60;
 		return `${mins}:${secs.toString().padStart(2, '0')}`;
+	}
+
+	async function copyResults() {
+		const resultsText = `typsterity.xyz | ${completedProblems} problems | ${points} points`;
+		
+		try {
+			await navigator.clipboard.writeText(resultsText);
+			console.log('Results copied to clipboard!');
+			
+			// Show toast notification
+			showToast = true;
+			setTimeout(() => {
+				showToast = false;
+			}, 2000);
+		} catch (err) {
+			console.error('Failed to copy:', err);
+		}
 	}
 
 
@@ -330,11 +348,20 @@ $ x $
 			<h1 class="main-title">typsterity</h1>
 			<h2>Game Over!</h2>
 			<div class="final-stats">
-				<p class="final-score">You finished {completedProblems} problems for a total score of {points}</p>
+                <p class="final-score">
+                    You finished {completedProblems} problems for a total score of {points}!
+                </p>
 			</div>
 			<button class="btn mode-btn" on:click={() => { gameEnded = false; gameStarted = false; }}>Main Menu</button>
+            <div class="share-button-container">
+                <button class="btn mode-btn" on:click={copyResults}>Share?</button>
+                {#if showToast}
+                    <div class="tooltip">Copied!</div>
+                {/if}
+            </div>
 		</div>
 	{/if}
+
 </main>
 
 <style>
@@ -649,5 +676,46 @@ $ x $
 	.final-accuracy, .attempts {
 		font-size: 1.1rem;
 		margin: 0.5rem 0;
+	}
+
+	.share-button-container {
+		position: relative;
+		display: inline-block;
+	}
+
+	.tooltip {
+		position: absolute;
+		bottom: 125%;
+		left: 50%;
+		transform: translateX(-50%);
+		background: rgba(0, 0, 0, 0.6);
+		color: white;
+		padding: 0.5rem 0.8rem;
+		border-radius: 4px;
+		font-size: 0.9rem;
+		white-space: nowrap;
+		z-index: 1000;
+		animation: fadeInUp 0.3s ease-out;
+	}
+
+	.tooltip::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 6px solid transparent;
+		border-top-color: rgba(0, 0, 0, 0.6);
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateX(-50%) translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
 	}
 </style>
