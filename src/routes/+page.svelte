@@ -309,7 +309,7 @@
 				<h4 class="section-header">This is what your output looks like:</h4>
 				<div class="box">
 					{#if userInput.trim()}
-						<TypstRenderer formula={userInput.trim()} width={500} height={60} />
+						<TypstRenderer formula={userInput.trim()} width={500} height={80} />
 					{:else}
 						<div class="empty-preview">Start typing to see your formula rendered...</div>
 					{/if}
