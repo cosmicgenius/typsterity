@@ -743,4 +743,3 @@ export const formulas: Formula[] = [
         typst: String.raw`sum_(rho "irrep") chi_rho(g) overline(chi_rho(h)) = cases(|C_G(g)| &"if" C_G(g) = C_G(h), 0 &"otherwise")`
     }
 ];
-

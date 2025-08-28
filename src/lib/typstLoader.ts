@@ -8,7 +8,7 @@ import { writable } from 'svelte/store';
 let typstInstance: any = null;
 let initPromise: Promise<any> | null = null;
 
-// Reactive stores for UI state  
+// Reactive stores for UI state
 export const isReady = writable(false);
 export const isInitializing = writable(true); // Start as true to show loading initially
 
@@ -35,7 +35,7 @@ export async function initializeTypst(): Promise<any> {
 			// Import WASM modules with ?url to get proper asset URLs
 			console.log('Importing WASM modules...');
 			let compilerWasm, rendererWasm;
-			
+
 			try {
 				compilerWasm = await import('@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm?url');
 				console.log('Compiler WASM imported successfully');
@@ -44,7 +44,7 @@ export async function initializeTypst(): Promise<any> {
 				console.error('Failed to import compiler WASM:', e);
 				throw e;
 			}
-			
+
 			try {
 				rendererWasm = await import('@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm?url');
 				console.log('Renderer WASM imported successfully');

@@ -261,7 +261,7 @@
                     <li>Refer to the <a href="https://typst.app/docs/reference/symbols/sym/" target="_blank" rel="noopener noreferrer">symbol reference</a> to quickly look up unknown symbols</li>
 				</ul>
 			</div>
-			
+
 			<div class="github-link">
               <a href="https://github.com/cosmicgenius/typsterity" target="_blank" rel="noopener noreferrer">
                   <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
