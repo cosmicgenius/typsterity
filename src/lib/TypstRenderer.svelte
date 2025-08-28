@@ -81,7 +81,7 @@ $ ${formulaClean} $
 		} catch (err) {
 			console.error('Failed to render formula with Typst:', err);
 			error = 'Failed to render formula';
-			svgElement.innerHTML = `<div class="error">Error rendering: ${formula}</div>`;
+			svgElement.innerHTML = '';
 		}
 	}
 
@@ -107,13 +107,13 @@ $ ${formulaClean} $
 
 <style>
 	.typst-container {
-		border: 1px solid #ccc;
-		background: white;
-		border-radius: 4px;
+		border: none;
+		background: transparent;
+		border-radius: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 1rem;
+		padding: 0;
 		box-sizing: border-box;
 	}
 

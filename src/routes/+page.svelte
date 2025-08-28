@@ -13,6 +13,8 @@
 	let timer: NodeJS.Timeout | null = null;
 	let formulaPool: Formula[] = [];
 	let currentFormulaIndex = 0;
+	let problemNumber = 1;
+	let completedProblems = 0;
 	let autoCheckController: AbortController | null = null;
 	let autoCheckTimeout: NodeJS.Timeout | null = null;
 	let isAutoChecking = false;
@@ -35,6 +37,8 @@
 		timeLeft = 180;
 		userInput = '';
 		currentFormulaIndex = 0;
+		problemNumber = 1;
+		completedProblems = 0;
 		
 		// Create a shuffled pool of all formulas
 		formulaPool = shuffleArray(formulas);
@@ -74,6 +78,20 @@
 		currentFormulaIndex++;
 	}
 
+	function handleCorrectAnswer() {
+		if (!currentFormula) return;
+		
+		// Award points based on formula length (like TeXnique)
+		const pointsEarned = Math.ceil(currentFormula.typst.length / 10);
+		points += pointsEarned;
+		completedProblems++;
+		console.log(`🎯 Earned ${pointsEarned} points! Total: ${points}`);
+		
+		userInput = '';
+		loadNextFormula();
+		problemNumber++;
+	}
+
 	async function checkAnswer() {
 		if (!currentFormula) return;
 		
@@ -90,13 +108,7 @@
 			});
 			
 			if (isMatch) {
-				// Award points based on formula length (like TeXnique)
-				const pointsEarned = Math.ceil(currentFormula.typst.length / 10);
-				points += pointsEarned;
-				console.log(`🎯 Earned ${pointsEarned} points! Total: ${points}`);
-				
-				userInput = '';
-				loadNextFormula();
+				handleCorrectAnswer();
 			}
 		} catch (error) {
 			console.error('Error during manual check:', error);
@@ -161,13 +173,7 @@
 			// Only proceed if not aborted
 			if (!autoCheckController.signal.aborted && isMatch) {
 				console.log('🎉 Auto-detected correct answer!');
-				// Award points based on formula length (like TeXnique)
-				const pointsEarned = Math.ceil(currentFormula.typst.length / 10);
-				points += pointsEarned;
-				console.log(`🎯 Auto-earned ${pointsEarned} points! Total: ${points}`);
-				
-				userInput = '';
-				loadNextFormula();
+				handleCorrectAnswer();
 			}
 		} catch (error) {
 			if (error.name !== 'AbortError') {
@@ -236,122 +242,198 @@ $ x $
 </script>
 
 <main class="container">
-	<header>
-		<h1>Typsterity</h1>
-		<p>A Typst speed-typesetting game. How many formulas can you recreate in three minutes?</p>
-	</header>
-
 	{#if !gameStarted && !gameEnded}
-		<div class="start-screen">
-			{#if typstInitializing}
-				<p class="loading-text">Loading Typst renderer...</p>
-				<button class="start-btn" disabled>Start Game</button>
-			{:else if !typstReady}
-				<p class="error-text">Failed to load Typst renderer. Please refresh the page.</p>
-				<button class="start-btn" disabled>Start Game</button>
-			{:else}
-				<button class="start-btn" on:click={startGame}>Start Game</button>
-			{/if}
+		<div class="start-page">
+			<h1 class="main-title">typsterity</h1>
+			
+			<p class="description">Type as many formulas as you can in three minutes.</p>
+			
+			<div class="game-modes">
+				{#if typstInitializing}
+					<p class="loading-text">Loading Typst renderer...</p>
+				{:else if !typstReady}
+					<p class="error-text">Failed to load Typst renderer. Please refresh the page.</p>
+				{/if}
+				<button class="btn mode-btn" on:click={startGame} disabled={!typstReady}>Timed Game</button>
+			</div>
+			
+			<div class="hints">
+				<h3>Hints:</h3>
+				<ul>
+					<li>No $ signs needed</li>
+					<li>All formulas are rendered in display style</li>
+					<li>Use <code>frac(a, b)</code> for fractions</li>
+					<li>Use <code>sqrt(x)</code> for square roots</li>
+					<li>Use <code>sum_(i=1)^n</code> for summations</li>
+					<li>Use <code>integral_a^b</code> for integrals</li>
+					<li>Harder problems are worth more points</li>
+				</ul>
+			</div>
 		</div>
 	{/if}
 
 	{#if gameStarted}
 		<div class="game-area">
+			<h1 class="main-title">typsterity</h1>
 			<div class="game-header">
-				<div class="timer">Time: {formatTime(timeLeft)}</div>
-				<div class="stats">
-					<div class="score">Points: {points}</div>
+				<div class="header-left">
+					<button class="btn skip-btn" on:click={() => { loadNextFormula(); problemNumber++; }}>Skip This Problem</button>
+					<button class="btn end-btn" on:click={endGame}>End Game</button>
+				</div>
+				<div class="header-center">
+					<div class="score"><strong>Score:</strong> {points}</div>
+				</div>
+				<div class="header-right">
+					<div class="timer"><strong>Time:</strong> {formatTime(timeLeft)}</div>
 				</div>
 			</div>
 
 			{#if currentFormula}
+				<div class="problem-header">
+					<h3>Problem {problemNumber}: {currentFormula.category} ({Math.ceil(currentFormula.typst.length / 10)} points)</h3>
+				</div>
 				<div class="formula-display">
-					<h3>Recreate this formula:</h3>
-					<div class="formula-container">
+					<h4 class="section-header">Try to create the following formula:</h4>
+					<div class="box formula-box">
 						<TypstRenderer formula={currentFormula.typst} width={500} height={80} />
-						<div class="formula-info">
-							<span class="difficulty difficulty-{currentFormula.difficulty}">{currentFormula.difficulty}</span>
-							<span class="category">{currentFormula.category}</span>
-						</div>
 					</div>
 				</div>
 			{/if}
 
+			<div class="user-preview">
+				<h4 class="section-header">This is what your output looks like:</h4>
+				<div class="box">
+					{#if userInput.trim()}
+						<TypstRenderer formula={userInput.trim()} width={500} height={60} />
+					{:else}
+						<div class="empty-preview">Start typing to see your formula rendered...</div>
+					{/if}
+				</div>
+			</div>
+
 			<div class="input-area">
 				<div class="input-section">
-					<h4>Your formula:</h4>
+					<h4 class="section-header">Edit your code here:</h4>
 					<textarea 
 						bind:value={userInput}
 						placeholder="Type your Typst formula here... (Ctrl+Enter to submit)"
 						on:keydown={handleKeyDown}
 						class="formula-input"
 					></textarea>
-					{#if userInput.trim()}
-						<div class="user-preview">
-							<h5>Your formula rendered:</h5>
-							<TypstRenderer formula={userInput.trim()} width={400} height={60} />
-						</div>
-					{/if}
 				</div>
-				<button class="submit-btn" on:click={checkAnswer}>Submit (Ctrl+Enter)</button>
 			</div>
 		</div>
 	{/if}
 
 	{#if gameEnded}
 		<div class="end-screen">
+			<h1 class="main-title">typsterity</h1>
 			<h2>Game Over!</h2>
 			<div class="final-stats">
-				<p class="final-score">Final Points: {points}</p>
+				<p class="final-score">You finished {completedProblems} problems for a total score of {points}</p>
 			</div>
-			<button class="start-btn" on:click={startGame}>Play Again</button>
+			<button class="btn mode-btn" on:click={() => { gameEnded = false; gameStarted = false; }}>Main Menu</button>
 		</div>
 	{/if}
 </main>
 
 <style>
 	.container {
-		max-width: 800px;
+		max-width: 900px;
 		margin: 0 auto;
-		padding: 2rem;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		padding: 1rem;
+		font-family: 'New Computer Modern', 'Times New Roman', Times, serif;
+		background: white;
+		min-height: 100vh;
+		line-height: 1.6;
+		box-sizing: border-box;
 	}
 
-	header {
+	.start-page {
 		text-align: center;
-		margin-bottom: 2rem;
+		padding: 1rem 0;
 	}
 
-	h1 {
-		font-size: 3rem;
-		color: #2c3e50;
-		margin-bottom: 0.5rem;
-	}
-
-	.start-screen, .end-screen {
+	.main-title {
+		font-size: 4rem;
+		color: #000;
+		margin: 1rem 0 1rem 0;
+		font-weight: normal;
+		letter-spacing: 0.02em;
 		text-align: center;
+	}
+
+	.description {
+		font-size: 1.2rem;
+		color: #000;
+		margin: 0 0 1rem 0;
+		font-weight: normal;
+	}
+
+	.game-modes {
 		margin: 2rem 0;
 	}
 
-	.start-btn {
-		background: #3498db;
-		color: white;
-		border: none;
-		padding: 1rem 2rem;
-		font-size: 1.2rem;
-		border-radius: 5px;
+	.btn {
+		background: white;
+		color: #000;
+		border: 2px solid #000;
+		font-family: 'New Computer Modern', 'Times New Roman', Times, serif;
 		cursor: pointer;
-		transition: background 0.3s;
+		transition: all 0.2s;
 	}
 
-	.start-btn:hover:not(:disabled) {
-		background: #2980b9;
+	.btn:hover:not(:disabled) {
+		background: #000;
+		color: white;
 	}
 
-	.start-btn:disabled {
-		background: #95a5a6;
+	.btn:disabled {
+		opacity: 0.5;
 		cursor: not-allowed;
-		opacity: 0.6;
+	}
+
+	.mode-btn {
+		padding: 0.6rem 1.2rem;
+		font-size: 1.1rem;
+		margin: 0 1rem;
+	}
+
+	.hints {
+		text-align: left;
+		max-width: 600px;
+		margin: 2rem auto 1rem;
+	}
+
+	.hints h3 {
+		font-size: 1.4rem;
+		color: #000;
+		margin-bottom: 1rem;
+		font-weight: bold;
+	}
+
+	.hints ul {
+		list-style-type: disc;
+		padding-left: 2rem;
+	}
+
+	.hints li {
+		font-size: 1.1rem;
+		color: #000;
+		margin: 0.3rem 0;
+	}
+
+	.hints code {
+		background: #f5f5f5;
+		padding: 0.2rem 0.4rem;
+		border-radius: 3px;
+		font-family: 'Roboto Mono', 'Courier New', monospace;
+		font-size: 0.9em;
+	}
+
+	.end-screen {
+		text-align: center;
+		margin: 2rem 0;
 	}
 
 	.loading-text {
@@ -367,23 +449,65 @@ $ x $
 	}
 
 	.game-area {
-		margin: 2rem 0;
+		margin: 0;
 	}
+
 
 	.game-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 2rem;
-		padding: 1rem;
-		background: #ecf0f1;
-		border-radius: 5px;
+		margin-bottom: 1rem;
+		padding: 0;
+		background: transparent;
+		border-radius: 0;
+	}
+
+	.header-left {
+		display: flex;
+		gap: 1rem;
+		flex: 1;
+		justify-content: flex-start;
+	}
+
+	.header-center {
+		flex: 1;
+		text-align: center;
+	}
+
+	.header-right {
+		flex: 1;
+		text-align: right;
+	}
+
+	.skip-btn, .end-btn {
+		padding: 0.4rem 0.8rem;
+		font-size: 0.9rem;
+	}
+
+	.section-header {
+		font-weight: normal;
+		margin: 0 0 0.5rem 0;
+		color: #000;
+		font-size: 1.1rem;
+	}
+
+	.problem-header {
+		margin-top: 2rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.problem-header h3 {
+		font-size: 1.3rem;
+		font-weight: bold;
+		color: #000;
+		margin: 0;
 	}
 
 	.timer {
-		font-size: 1.4rem;
-		font-weight: bold;
-		color: #e74c3c;
+		font-size: 1rem;
+		font-weight: normal;
+		color: #000;
 	}
 
 	.stats {
@@ -392,25 +516,34 @@ $ x $
 	}
 
 	.score, .accuracy {
-		font-size: 1.2rem;
-		font-weight: bold;
+		font-size: 1rem;
+		font-weight: normal;
+		color: #000;
 	}
 
 	.formula-display {
-		margin-bottom: 2rem;
-		text-align: center;
+		margin-bottom: 1rem;
+		text-align: left;
 	}
 
-	.formula-container {
+	.box {
+		border: 2px solid #000;
+		background: white;
+		border-radius: 3px;
+		padding: 1rem;
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
+		justify-content: center;
+		min-height: 80px;
+	}
+
+	.formula-box {
+		margin-bottom: 0.5rem;
 	}
 
 	.formula-info {
 		display: flex;
-		gap: 1rem;
+		gap: 0.5rem;
 		align-items: center;
 	}
 
@@ -446,48 +579,46 @@ $ x $
 	}
 
 	.input-area {
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
 	}
 
 	.input-section {
 		margin-bottom: 1rem;
 	}
 
-	.input-section h4 {
-		margin: 0 0 0.5rem 0;
-		color: #2c3e50;
-		font-size: 1.1rem;
-	}
 
 	.formula-input {
 		width: 100%;
-		min-height: 120px;
-		padding: 1rem;
-		font-family: 'Courier New', monospace;
+		min-height: 100px;
+		padding: 0.8rem;
+		font-family: 'Roboto Mono', 'Courier New', monospace;
 		font-size: 1rem;
-		border: 2px solid #dee2e6;
-		border-radius: 5px;
+		border: 2px solid #000;
+		border-radius: 3px;
 		resize: vertical;
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
+		background: #1e1e1e;
+		color: #ffffff;
+		box-sizing: border-box;
 	}
 
 	.formula-input:focus {
 		outline: none;
-		border-color: #3498db;
+		border-color: #007acc;
+	}
+
+	.formula-input::placeholder {
+		color: #888;
 	}
 
 	.user-preview {
-		margin-top: 1rem;
-		padding: 1rem;
-		background: #f8f9fa;
-		border: 1px solid #e9ecef;
-		border-radius: 5px;
+		margin-bottom: 1rem;
 	}
 
-	.user-preview h5 {
-		margin: 0 0 0.5rem 0;
-		color: #495057;
-		font-size: 0.9rem;
+
+	.empty-preview {
+		color: #888;
+		font-style: italic;
 	}
 
 	.submit-btn {
@@ -510,9 +641,9 @@ $ x $
 	}
 
 	.final-score {
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #2c3e50;
+		font-size: 1.2rem;
+		font-weight: normal;
+		color: #000;
 	}
 
 	.final-accuracy, .attempts {
