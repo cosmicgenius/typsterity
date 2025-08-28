@@ -250,8 +250,13 @@
 				<ul>
 					<li>No $ signs needed</li>
                     <li>All formulas are rendered in display style</li>
-                    <li>Use <code>quad (mod n)</code> for modulo (equivalent to LaTeX's <code>\pmod</code>)</li>
                     <li>Use <code>op()</code> custom operators (equivalent to LaTeX's <code>\operatorname</code>)</li>
+                    <li>
+                        Use <code>mid(|)</code> for conditional probability/expectation/etc.,
+                        and use <code>divides</code> for divisibility (replacements for
+                        LaTeX's <code>\mid</code>)
+                    </li>
+                    <li>Use <code>quad (mod n)</code> for modulo (equivalent to LaTeX's <code>\pmod</code>)</li>
 					<li>Harder formulas are worth more points</li>
                     <li>Refer to the <a href="https://typst.app/docs/reference/symbols/sym/" target="_blank" rel="noopener noreferrer">symbol reference</a> to quickly look up unknown symbols</li>
 				</ul>

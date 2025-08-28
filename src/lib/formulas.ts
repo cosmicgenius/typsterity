@@ -165,7 +165,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Representation of the Golden Ratio",
-        typst: String.raw`phi = sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + dots.down))))`
+        typst: String.raw`phi = sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + dots.c))))`
     },
     {
         title: "The Sum of all Positive Integers",
@@ -185,7 +185,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Bayes' Theorem",
-        typst: String.raw`P(A | B) = frac(P(B|A)P(A), P(B))`
+        typst: String.raw`P(A mid(|) B) = frac(P(B mid(|) A)P(A), P(B))`
     },
     {
         title: "Probability Density Function of the Student's t-distribution",
@@ -241,7 +241,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Fermat's Last Theorem",
-        typst: String.raw`not exists {x,y,z,n} in NN, n > 2 : x^n + y^n = z^n`
+        typst: String.raw`not exists x,y,z,n in NN, n > 2 : x^n + y^n = z^n`
     },
     {
         title: "Fermat's Little Theorem",
@@ -265,7 +265,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Definition of Perfect Numbers",
-        typst: String.raw`{n : sum_(d | n)^(d<n) d = n}`
+        typst: String.raw`{n : sum_(d divides n)^(d<n) d = n}`
     },
     {
         title: "Gaussian Integral",
@@ -354,7 +354,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "The Dirichlet Convolution",
-        typst: String.raw`(f * g)(n) = sum_(d | n) f(d) g(frac(n, d))`
+        typst: String.raw`(f * g)(n) = sum_(d divides n) f(d) g(frac(n, d))`
     },
     {
         title: "Sum of a Row of Pascal's Triangle",
@@ -426,11 +426,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Law of Total Probability",
-        typst: String.raw`PP(A) = sum_(i=1)^n PP(A| B_i) PP(B_i)`
+        typst: String.raw`PP(A) = sum_(i=1)^n PP(A mid(|) B_i) PP(B_i)`
     },
     {
         title: "Linear Least Squares Estimator",
-        typst: String.raw`L[X|Y] = EE[X] + frac("cov"(X,Y), "var"(Y)) (Y-EE[Y])`
+        typst: String.raw`L[X mid(|) Y] = EE[X] + frac(op("cov")(X,Y), op("var")(Y)) (Y-EE[Y])`
     },
     {
         title: "Rademacher Complexity",
@@ -450,11 +450,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Definition of the Euler Totient Function",
-        typst: String.raw`phi(n) = abs({k in NN_(<=n) | gcd(k,n)=1}) = n product_(p|n) (1-frac(1, p))`
+        typst: String.raw`phi(n) = abs({k in NN_(<=n) : gcd(k,n)=1}) = n product_(p divides n) (1-frac(1, p))`
     },
     {
         title: "Sum of Divisors",
-        typst: String.raw`sigma(n) = sum_(d|n) d = product_(p^a || n) (frac(p^(a+1)-1, p-1))`
+        typst: String.raw`sigma(n) = sum_(d divides n) d = product_(p^a parallel n) (frac(p^(a+1)-1, p-1))`
     },
     {
         title: "Einstein Field Equations",
@@ -550,11 +550,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Fibonacci Binomial Coefficients Identity",
-        typst: String.raw`F_(n+1) = binom(n, 0) + binom(n-1, 1) + binom(n-2, 2) + dots + binom(n - floor(n/2), floor(n/2))`
+        typst: String.raw`F_(n+1) = binom(n, 0) + binom(n-1, 1) + binom(n-2, 2) + dots.c + binom(n - floor(n/2), floor(n/2))`
     },
     {
         title: "Bellman Optimality Equation",
-        typst: String.raw`V^(pi star)(s) = max_a { R(s,a) + gamma sum_(s') P(s'|s,a) V^(pi star)(s') }`
+        typst: String.raw`V^(pi star)(s) = max_a { R(s,a) + gamma sum_(s') P(s' mid(|) s,a) V^(pi star)(s') }`
     },
     {
         title: "Definition of a Well-founded Relation",
@@ -588,12 +588,9 @@ export const formulas: Formula[] = [
         title: "Feigenbaum-Cvitanović Functional Equation",
         typst: String.raw`g(g(x)) = - 1/alpha g(alpha x)`
     },
+    // Dirac equation removed due to no hbar
     {
-        title: "Dirac Equation",
-        typst: String.raw`i h-bar gamma^mu diff_mu psi - m c psi = 0`
-    },
-    {
-        title: "Feynman's Trick",
+        title: "An Application of Feynman's Trick",
         typst: String.raw`integral_0^pi ln(1-2 alpha cos x + alpha^2) dif x = 2 pi ln abs(alpha)`
     },
     {
@@ -646,7 +643,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "The Fundamental Group of the Circle",
-        typst: String.raw`pi_1(S^1) approx.eq ZZ`
+        typst: String.raw`pi_1(S^1) tilde.equiv ZZ`
     },
     {
         title: "Definition of the Operator Norm on a Finite Dimensional Banach Space.",
@@ -670,7 +667,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Pinsker's inequality",
-        typst: String.raw`norm(mu - nu)_"TV" <= sqrt(2 D_"KL"(mu | nu))`
+        typst: String.raw`norm(mu - nu)_"TV" <= sqrt(2 D_"KL"(mu mid(|) nu))`
     },
     {
         title: "Sackur-Tetrode equation",
@@ -678,7 +675,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Condtional Entropy",
-        typst: String.raw`H(Y|X) = -sum_(x in cal(X), y in cal(Y)) p(x,y) log((p(x,y))/(p(x)))`
+        typst: String.raw`H(Y mid(|) X) = -sum_(x in cal(X), y in cal(Y)) p(x,y) log((p(x,y))/(p(x)))`
     },
     {
         title: "Force-Potential Relation",
@@ -739,7 +736,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Tensor-Hom Adjunction",
-        typst: String.raw`op("Hom")(A times.circle B, C) tilde.equiv op("Hom")(A, op("Hom")(B, C))`
+        typst: String.raw`op("Hom")(X times.circle Y, Z) tilde.equiv op("Hom")(X, op("Hom")(Y, Z))`
     },
     {
         title: "Column Orthogonality in Character Tables",
