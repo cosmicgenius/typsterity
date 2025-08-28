@@ -279,12 +279,9 @@ $ x $
 				<h3>Hints:</h3>
 				<ul>
 					<li>No $ signs needed</li>
-					<li>All formulas are rendered in display style</li>
-					<li>Use <code>frac(a, b)</code> for fractions</li>
-					<li>Use <code>sqrt(x)</code> for square roots</li>
-					<li>Use <code>sum_(i=1)^n</code> for summations</li>
-					<li>Use <code>integral_a^b</code> for integrals</li>
+                    <li>All formulas are rendered in display style</li>
 					<li>Harder problems are worth more points</li>
+                    <li>Refer to the <a href="https://typst.app/docs/reference/symbols/sym/">symbol reference</a> to quickly look up unknown symbols</li>
 				</ul>
 			</div>
 		</div>
