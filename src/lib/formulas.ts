@@ -140,11 +140,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Euler Product of the Riemann-Zeta function",
-        typst: String.raw`zeta(s) = sum_(n=1)^infinity frac(1, n^s) = product_(p in bb(P)) frac(1, 1 - p^(-s))`
+        typst: String.raw`zeta(s) = sum_(n=1)^infinity frac(1, n^s) = product_(p in PP) frac(1, 1 - p^(-s))`
     },
     {
         title: "Irrationality of the Square Root of 2",
-        typst: String.raw`sqrt(2) in.not bb(Q)`
+        typst: String.raw`sqrt(2) in.not QQ`
     },
     {
         title: "Heron's Formula",
@@ -201,7 +201,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "General Principle of Inclusion-Exclusion",
-        typst: String.raw`abs(union.big_(i = 1)^n A_i) = sum_(emptyset != J subset {1, dots, n}) (-1)^(abs(J) + 1) abs(sect.big_(j in J) A_j)`
+        typst: String.raw`abs(union.big_(i = 1)^n A_i) = sum_(emptyset != J subset {1, dots, n}) (-1)^(|J| + 1) abs(sect.big_(j in J) A_j)`
     },
     {
         title: "Determinant of a 2×2 matrix",
@@ -209,19 +209,19 @@ export const formulas: Formula[] = [
     },
     {
         title: "Sawtooth Function",
-        typst: String.raw`S(x) = cases(x - floor(x) - 1/2 "if" x in bb(R) without bb(Z), 0 "if" x in bb(Z))`
+        typst: String.raw`S(x) = cases(x - floor(x) - 1/2 &"if" x in RR without ZZ, 0 &"if" x in ZZ)`
     },
     {
         title: "Definition of Graham's Number",
-        typst: String.raw`g_n = cases(3 arrow.t arrow.t arrow.t arrow.t 3 "if" n = 1, 3 arrow.t^(g_(n-1)) 3 "if" n >= 2, n in bb(N))`
+        typst: String.raw`g_n = cases(3 arrow.t arrow.t arrow.t arrow.t 3 &"if" n = 1, 3 attach(scripts(arrow.t), t: g_(n-1))  3 &"if" n >= 2\, n in NN)`
     },
     {
         title: "Burnside's Lemma",
-        typst: String.raw`abs(X \/ G) = frac(1, abs(G)) sum_(g in G) abs(X^g)`
+        typst: String.raw`abs(X \/ G) = 1/(|G|) sum_(g in G)|X^g|`
     },
     {
         title: "Continuum Hypothesis",
-        typst: String.raw`alef_0 = abs(bb(N)), frak(c) = abs(bb(R)) \ not exists A : alef_0 < abs(A) < frak(c)`
+        typst: String.raw`alef_0 = |NN|, frak(c) = |RR| \ not exists A : alef_0 < abs(A) < frak(c)`
     },
     {
         title: "Spectral Decomposition",
@@ -241,7 +241,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Fermat's Last Theorem",
-        typst: String.raw`not exists {x,y,z,n} in bb(N), n > 2 : x^n + y^n = z^n`
+        typst: String.raw`not exists {x,y,z,n} in NN, n > 2 : x^n + y^n = z^n`
     },
     {
         title: "Fermat's Little Theorem",
@@ -281,7 +281,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Recursive definition of the Hadamard transform",
-        typst: String.raw`H_m = cases(1 "if" m = 0, frac(1, sqrt(2)) mat(H_(m-1), H_(m-1); H_(m-1), -H_(m-1)) "if" m > 0)`
+        typst: String.raw`H_m = cases(1 &"if" m = 0, frac(1, sqrt(2)) mat(H_(m-1), H_(m-1); H_(m-1), -H_(m-1)) &"if" m > 0)`
     },
     // Wigner Transform of the Density Matrix removed due to no hbar
     {
@@ -342,7 +342,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Power Mean",
-        typst: String.raw`M_r (x_1,x_2,dots,x_n) = cases((frac(1, n) sum_(i=1)^n x_i^r)^(1\/r) "if" r != 0, root(n, product_(i=1)^n x_i) "if" r = 0)`
+        typst: String.raw`M_r (x_1,x_2,dots,x_n) = cases((frac(1, n) sum_(i=1)^n x_i^r)^(1\/r) &"if" r != 0, root(n, product_(i=1)^n x_i) &"if" r = 0)`
     },
     {
         title: "Law of Tangents",
@@ -378,7 +378,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Mertens' theorem",
-        typst: String.raw`product_(p in bb(P))^n (1-frac(1, p)) tilde frac(e^(-gamma), log n)`
+        typst: String.raw`product_(p in PP)^n (1-frac(1, p)) tilde frac(e^(-gamma), log n)`
     },
     {
         title: "Green's First Identity",
@@ -402,7 +402,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Well-ordering Principle",
-        typst: String.raw`forall M (M subset bb(N) and M != emptyset ==> exists m_0 [m_0 in M and forall n (n in M ==> m <= n)])`
+        typst: String.raw`forall M (M subset NN and M != emptyset ==> exists m_0 [m_0 in M and forall n (n in M ==> m <= n)])`
     },
     {
         title: "Asymptotic Formula for the Dirichlet Divisor Function",
@@ -418,27 +418,27 @@ export const formulas: Formula[] = [
     },
     {
         title: "Chernoff Bound",
-        typst: String.raw`bb(P)(X >= t) <= frac(bb(E)[e^(lambda X)], e^(lambda t))`
+        typst: String.raw`PP(X >= t) <= frac(EE[e^(lambda X)], e^(lambda t))`
     },
     {
         title: "Union Bound",
-        typst: String.raw`bb(P)(union.big_(i=1)^n X_i) <= sum_(i=1)^n bb(P)(X_i)`
+        typst: String.raw`PP(union.big_(i=1)^n X_i) <= sum_(i=1)^n PP(X_i)`
     },
     {
         title: "Law of Total Probability",
-        typst: String.raw`bb(P)(A) = sum_(i=1)^n bb(P)(A| B_i) bb(P)(B_i)`
+        typst: String.raw`PP(A) = sum_(i=1)^n PP(A| B_i) PP(B_i)`
     },
     {
         title: "Linear Least Squares Estimator",
-        typst: String.raw`L[X|Y] = bb(E)[X] + frac("cov"(X,Y), "var"(Y)) (Y-bb(E)[Y])`
+        typst: String.raw`L[X|Y] = EE[X] + frac("cov"(X,Y), "var"(Y)) (Y-EE[Y])`
     },
     {
         title: "Rademacher Complexity",
-        typst: String.raw`cal(R)_n (cal(F)) = bb(E)_epsilon [sup_(f in cal(F)) frac(1, n) sum_(i=1)^n epsilon_i f(x_i)]`
+        typst: String.raw`cal(R)_n (cal(F)) = EE_epsilon [sup_(f in cal(F)) frac(1, n) sum_(i=1)^n epsilon_i f(x_i)]`
     },
     {
         title: "Definition of the Dilogarithm",
-        typst: String.raw`"Li"_2 (z) = -integral_0^z frac(log(1-t), t) dif t, z in bb(C)`
+        typst: String.raw`op("Li")_2 (z) = -integral_0^z frac(log(1-t), t) dif t, z in CC`
     },
     {
         title: "Leibniz's Determinant Formula",
@@ -450,7 +450,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Definition of the Euler Totient Function",
-        typst: String.raw`phi(n) = abs({k in bb(N)_(<=n) | gcd(k,n)=1}) = n product_(p|n) (1-frac(1, p))`
+        typst: String.raw`phi(n) = abs({k in NN_(<=n) | gcd(k,n)=1}) = n product_(p|n) (1-frac(1, p))`
     },
     {
         title: "Sum of Divisors",
@@ -486,7 +486,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Wigner Semicircle Distribution",
-        typst: String.raw`f(x) = cases(frac(2, pi R^2) sqrt(R^2-x^2) "if" -R <= x <= R, 0 "if" abs(x) > R)`
+        typst: String.raw`f(x) = cases(frac(2, pi R^2) sqrt(R^2-x^2) &"if" -R <= x <= R, 0 &"if" abs(x) > R)`
     },
     {
         title: "Parseval Gutzmer Formula",
@@ -526,7 +526,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Collatz Function",
-        typst: String.raw`f(n) = cases(n/2 "if" n equiv 0 space (mod 2), 3n + 1 "if" n equiv 1 space (mod 2))`
+        typst: String.raw`f(n) = cases(n/2 &"if" n equiv 0 space (mod 2), 3n + 1 &"if" n equiv 1 space (mod 2))`
     },
     {
         title: "Gamma Function",
@@ -582,7 +582,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Fast-Growing Hierarchy",
-        typst: String.raw`f_alpha(n) = cases(n+1 "if" alpha=0, f_beta(n) "if" alpha = beta+1, f_(alpha[n])(n) "else")`
+        typst: String.raw`f_alpha(n) = cases(n+1 &"if" alpha=0, f_beta(n) &"if" alpha = beta+1, f_(alpha[n])(n) &"else")`
     },
     {
         title: "Feigenbaum-Cvitanović Functional Equation",
@@ -682,7 +682,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Force-Potential Relation",
-        typst: String.raw`bold(F) = -(diff U)/(diff x) hat(bold(i)) - (diff U)/(diff y) hat(bold(j)) - (diff U)/(diff z) hat(bold(k)) = -vec(nabla)(U)`
+        typst: String.raw`bold(F) = -(diff U)/(diff x) hat(bold(i)) - (diff U)/(diff y) hat(bold(j)) - (diff U)/(diff z) hat(bold(k)) = - nabla (U)`
     },
     {
         title: "Beta Function",
@@ -743,7 +743,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Column Orthogonality in Character Tables",
-        typst: String.raw`sum_(rho "irrep") chi_rho(g) overline(chi_rho(h)) = cases(|C_G(g)| "if" C_G(g) = C_G(h), 0)`
+        typst: String.raw`sum_(rho "irrep") chi_rho(g) overline(chi_rho(h)) = cases(|C_G(g)| &"if" C_G(g) = C_G(h), 0 &"otherwise")`
     }
 ];
 
