@@ -13,8 +13,8 @@
 	let timer: NodeJS.Timeout | null = null;
 	let formulaPool: Formula[] = [];
 	let currentFormulaIndex = 0;
-	let problemNumber = 1;
-	let completedProblems = 0;
+	let formulaNumber = 1;
+	let completedFormulas = 0;
 	let showToast = false;
 	let autoCheckController: AbortController | null = null;
 	let autoCheckTimeout: NodeJS.Timeout | null = null;
@@ -38,8 +38,8 @@
 		timeLeft = 180;
 		userInput = '';
 		currentFormulaIndex = 0;
-		problemNumber = 1;
-		completedProblems = 0;
+		formulaNumber = 1;
+		completedFormulas = 0;
 
 		// Create a shuffled pool of all formulas
 		formulaPool = shuffleArray(formulas);
@@ -85,12 +85,12 @@
 		// Award points based on formula length (like TeXnique)
 		const pointsEarned = Math.ceil(currentFormula.typst.length / 10);
 		points += pointsEarned;
-		completedProblems++;
+		completedFormulas++;
 		console.log(`🎯 Earned ${pointsEarned} points! Total: ${points}`);
 
 		userInput = '';
 		loadNextFormula();
-		problemNumber++;
+		formulaNumber++;
 	}
 
 	async function checkAnswer() {
@@ -130,7 +130,7 @@
 	}
 
 	async function copyResults() {
-		const resultsText = `typsterity.xyz | ${completedProblems} problems | ${points} points`;
+		const resultsText = `typsterity.xyz | ${completedFormulas} formulas | ${points} points`;
 
 		try {
 			await navigator.clipboard.writeText(resultsText);
@@ -282,7 +282,7 @@ $ x $
                     <li>All formulas are rendered in display style</li>
                     <li>Use <code>quad (mod n)</code> for modulo (equivalent to LaTeX's <code>\pmod</code>)</li>
                     <li>Use <code>op()</code> custom operators (equivalent to LaTeX's <code>\operatorname</code>)</li>
-					<li>Harder problems are worth more points</li>
+					<li>Harder formulas are worth more points</li>
                     <li>Refer to the <a href="https://typst.app/docs/reference/symbols/sym/" target="_blank" rel="noopener noreferrer">symbol reference</a> to quickly look up unknown symbols</li>
 				</ul>
 			</div>
@@ -307,7 +307,7 @@ $ x $
 			<h1 class="main-title">typsterity</h1>
 			<div class="game-header">
 				<div class="header-left">
-					<button class="btn skip-btn" on:click={() => { loadNextFormula(); problemNumber++; }}>Skip This Problem</button>
+					<button class="btn skip-btn" on:click={() => { loadNextFormula(); formulaNumber++; }}>Skip This Formula</button>
 					<button class="btn end-btn" on:click={endGame}>End Game</button>
 				</div>
 				<div class="header-center">
@@ -319,8 +319,8 @@ $ x $
 			</div>
 
 			{#if currentFormula}
-				<div class="problem-header">
-					<h3>Problem {problemNumber}: {currentFormula.title} ({Math.ceil(currentFormula.typst.length / 10)} points)</h3>
+				<div class="formula-header">
+					<h3>Formula {formulaNumber}: {currentFormula.title} ({Math.ceil(currentFormula.typst.length / 10)} points)</h3>
 				</div>
 				<div class="formula-display">
 					<h4 class="section-header">Try to create the following formula:</h4>
@@ -361,7 +361,7 @@ $ x $
 			<h2>Game Over!</h2>
 			<div class="final-stats">
                 <p class="final-score">
-                    You finished {completedProblems} problems for a total score of {points}!
+                    You finished {completedFormulas} formulas for a total score of {points}!
                 </p>
 			</div>
 			<button class="btn mode-btn" on:click={() => { gameEnded = false; gameStarted = false; }}>Main Menu</button>
@@ -539,12 +539,12 @@ $ x $
 		font-size: 1.1rem;
 	}
 
-	.problem-header {
+	.formula-header {
 		margin-top: 2rem;
 		margin-bottom: 0.5rem;
 	}
 
-	.problem-header h3 {
+	.formula-header h3 {
 		font-size: 1.3rem;
 		font-weight: bold;
 		color: #000;
