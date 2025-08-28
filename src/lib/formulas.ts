@@ -36,7 +36,7 @@ export const formulas: Formula[] = [
 		difficulty: 'easy',
 		category: 'trigonometry'
 	},
-	
+
 	// Medium formulas
 	{
 		typst: 'x = frac(-b plus.minus sqrt(b^2 - 4a c), 2a)',
@@ -104,11 +104,11 @@ export const formulas: Formula[] = [
 
 export function getRandomFormula(difficulty?: 'easy' | 'medium' | 'hard'): Formula {
 	let availableFormulas = formulas;
-	
+
 	if (difficulty) {
 		availableFormulas = formulas.filter(f => f.difficulty === difficulty);
 	}
-	
+
 	const randomIndex = Math.floor(Math.random() * availableFormulas.length);
 	return availableFormulas[randomIndex];
 }

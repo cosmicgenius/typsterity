@@ -40,10 +40,10 @@
 		currentFormulaIndex = 0;
 		problemNumber = 1;
 		completedProblems = 0;
-		
+
 		// Create a shuffled pool of all formulas
 		formulaPool = shuffleArray(formulas);
-		
+
 		loadNextFormula();
 		startTimer();
 	}
@@ -74,20 +74,20 @@
 			formulaPool = shuffleArray(formulas);
 			currentFormulaIndex = 0;
 		}
-		
+
 		currentFormula = formulaPool[currentFormulaIndex];
 		currentFormulaIndex++;
 	}
 
 	function handleCorrectAnswer() {
 		if (!currentFormula) return;
-		
+
 		// Award points based on formula length (like TeXnique)
 		const pointsEarned = Math.ceil(currentFormula.typst.length / 10);
 		points += pointsEarned;
 		completedProblems++;
 		console.log(`🎯 Earned ${pointsEarned} points! Total: ${points}`);
-		
+
 		userInput = '';
 		loadNextFormula();
 		problemNumber++;
@@ -95,19 +95,19 @@
 
 	async function checkAnswer() {
 		if (!currentFormula) return;
-		
+
 		// Cancel any pending auto-check since user manually submitted
 		cancelAutoCheck();
-		
+
 		try {
 			const isMatch = await compareFormulasByRendering(userInput.trim(), currentFormula.typst);
-			
-			console.log('Manual check result:', { 
-				userInput: userInput.trim(), 
-				target: currentFormula.typst, 
-				match: isMatch 
+
+			console.log('Manual check result:', {
+				userInput: userInput.trim(),
+				target: currentFormula.typst,
+				match: isMatch
 			});
-			
+
 			if (isMatch) {
 				handleCorrectAnswer();
 			}
@@ -131,11 +131,11 @@
 
 	async function copyResults() {
 		const resultsText = `typsterity.xyz | ${completedProblems} problems | ${points} points`;
-		
+
 		try {
 			await navigator.clipboard.writeText(resultsText);
 			console.log('Results copied to clipboard!');
-			
+
 			// Show toast notification
 			showToast = true;
 			setTimeout(() => {
@@ -162,12 +162,12 @@
 	function scheduleAutoCheck() {
 		// Cancel any pending check
 		cancelAutoCheck();
-		
+
 		// Don't auto-check if input is too short
 		if (!userInput.trim() || userInput.trim().length < 2) {
 			return;
 		}
-		
+
 		// Schedule new check with debouncing
 		autoCheckTimeout = setTimeout(() => {
 			performAutoCheck();
@@ -176,18 +176,18 @@
 
 	async function performAutoCheck() {
 		if (!currentFormula || !userInput.trim() || isAutoChecking) return;
-		
+
 		try {
 			isAutoChecking = true;
 			autoCheckController = new AbortController();
-			
+
 			console.log('🤖 Performing auto-check...');
 			const isMatch = await compareFormulasByRendering(
-				userInput.trim(), 
+				userInput.trim(),
 				currentFormula.typst,
 				autoCheckController.signal
 			);
-			
+
 			// Only proceed if not aborted
 			if (!autoCheckController.signal.aborted && isMatch) {
 				console.log('🎉 Auto-detected correct answer!');
@@ -206,14 +206,14 @@
 	// Preload Typst renderer in background
 	async function preloadTypst() {
 		if (typstReady || typstInitializing) return;
-		
+
 		typstInitializing = true;
 		console.log('🚀 Preloading Typst renderer...');
-		
+
 		try {
 			// Import and initialize Typst
 			const { $typst } = await import('@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs');
-			
+
 			// Configure WASM modules
 			$typst.setCompilerInitOptions({
 				getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm')
@@ -221,7 +221,7 @@
 			$typst.setRendererInitOptions({
 				getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm')
 			});
-			
+
 			// Test render a simple formula to fully initialize
 			const testTemplate = `
 #set page(width: auto, height: auto, margin: 5pt)
@@ -229,9 +229,9 @@
 #set math.equation(numbering: none)
 $ x $
 			`.trim();
-			
+
 			await $typst.svg({ mainContent: testTemplate });
-			
+
 			typstReady = true;
 			console.log('✅ Typst renderer preloaded successfully!');
 		} catch (error) {
@@ -263,9 +263,9 @@ $ x $
 	{#if !gameStarted && !gameEnded}
 		<div class="start-page">
 			<h1 class="main-title">typsterity</h1>
-			
+
 			<p class="description">Type as many formulas as you can in three minutes.</p>
-			
+
 			<div class="game-modes">
 				{#if typstInitializing}
 					<p class="loading-text">Loading Typst renderer...</p>
@@ -274,7 +274,7 @@ $ x $
 				{/if}
 				<button class="btn mode-btn" on:click={startGame} disabled={!typstReady}>Timed Game</button>
 			</div>
-			
+
 			<div class="hints">
 				<h3>Hints:</h3>
 				<ul>
@@ -332,7 +332,7 @@ $ x $
 			<div class="input-area">
 				<div class="input-section">
 					<h4 class="section-header">Edit your code here:</h4>
-					<textarea 
+					<textarea
 						bind:value={userInput}
 						placeholder="Type your Typst formula here... (Ctrl+Enter to submit)"
 						on:keydown={handleKeyDown}

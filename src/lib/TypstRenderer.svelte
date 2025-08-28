@@ -15,12 +15,12 @@
 	onMount(async () => {
 		// Prevent multiple initializations
 		if (initPromise) return initPromise;
-		
+
 		initPromise = (async () => {
 			try {
 				// Import the Typst.ts API
 				const { $typst } = await import('@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs');
-				
+
 				// Only configure if not already configured
 				try {
 					$typst.setCompilerInitOptions({
@@ -29,7 +29,7 @@
 				} catch (e) {
 					console.log('Compiler already initialized, skipping...');
 				}
-				
+
 				try {
 					$typst.setRendererInitOptions({
 						getModule: () => fetch('/node_modules/@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm')
@@ -37,7 +37,7 @@
 				} catch (e) {
 					console.log('Renderer already initialized, skipping...');
 				}
-				
+
 				typstInstance = $typst;
 				isLoading = false;
 				if (formula) {
@@ -49,7 +49,7 @@
 				isLoading = false;
 			}
 		})();
-		
+
 		return initPromise;
 	});
 
@@ -71,7 +71,7 @@ $ ${formulaClean} $
 			`.trim();
 
 			// Render the formula using Typst.ts to SVG
-			const svgResult = await typstInstance.svg({ 
+			const svgResult = await typstInstance.svg({
 				mainContent: compactTemplate
 			});
 
@@ -91,8 +91,8 @@ $ ${formulaClean} $
 	}
 </script>
 
-<div 
-	bind:this={svgElement} 
+<div
+	bind:this={svgElement}
 	class="typst-container"
 	style="width: {width}px; min-height: {height}px;"
 >
