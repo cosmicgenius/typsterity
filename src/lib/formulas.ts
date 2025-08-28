@@ -498,7 +498,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Coarea Formula",
-        typst: String.raw`integral_Omega g(x) abs(nabla u(x)) d x = integral_RR (integral_(u^(-1)(t)) g(x) d H_(n-1)(x)) d t`
+        typst: String.raw`integral_Omega g(x) abs(nabla u(x)) dif x = integral_RR (integral_(u^(-1)(t)) g(x) dif H_(n-1)(x)) dif t`
     },
     {
         title: "Equation of a Torus",
@@ -530,11 +530,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Gamma Function",
-        typst: String.raw`Gamma(z) = integral_0^infinity x^(z - 1) e^(-x) d x`
+        typst: String.raw`Gamma(z) = integral_0^infinity x^(z - 1) e^(-x) dif x`
     },
     {
         title: "Laplace Transform",
-        typst: String.raw`cal(L)(f)(s) = integral_0^infinity f(t) e^(-s t) d t`
+        typst: String.raw`cal(L)(f)(s) = integral_0^infinity f(t) e^(-s t) dif t`
     },
     {
         title: "Taylor Series",
@@ -546,7 +546,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "General Solution to First-Order Linear Differential Equations",
-        typst: String.raw`y = e^(-integral P(x) d x) integral Q(x) e^(integral P(x) d x) d x + C e^(-integral P(x) d x)`
+        typst: String.raw`y = e^(-integral P(x) dif x) integral Q(x) e^(integral P(x) dif x) dif x + C e^(-integral P(x) dif x)`
     },
     {
         title: "Fibonacci Binomial Coefficients Identity",
@@ -562,7 +562,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Estimation Lemma",
-        typst: String.raw`abs(integral_gamma f(z) d z) <= L(gamma) sup_gamma abs(f)`
+        typst: String.raw`abs(integral_gamma f(z) dif z) <= L(gamma) sup_gamma abs(f)`
     },
     {
         title: "Chaitin's Constant",
@@ -570,7 +570,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Cauchy's Differentiation Formula",
-        typst: String.raw`f^((n))(a) = (n!)/(2 pi i) integral.cont_gamma (f(z))/((z-a)^(n+1)) d z`
+        typst: String.raw`f^((n))(a) = (n!)/(2 pi i) integral.cont_gamma (f(z))/((z-a)^(n+1)) dif z`
     },
     {
         title: "Defintion of the Quasi-Stationary Distribution",
@@ -594,7 +594,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Feynman's Trick",
-        typst: String.raw`integral_0^pi ln(1-2 alpha cos x + alpha^2) d x = 2 pi ln abs(alpha)`
+        typst: String.raw`integral_0^pi ln(1-2 alpha cos x + alpha^2) dif x = 2 pi ln abs(alpha)`
     },
     {
         title: "Lorentz Factor",
@@ -606,7 +606,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Gauss's Flux Theorem (integral form)",
-        typst: String.raw`integral.surf_S bold(E) dot d bold(A) = Q / epsilon_0`
+        typst: String.raw`integral.surf_S bold(E) dot dif bold(A) = Q / epsilon_0`
     },
     {
         title: "Doppler Effect",
@@ -638,11 +638,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Residue Theorem",
-        typst: String.raw`1 / (2 pi i) integral.cont_gamma f(z) d z = sum_(p " pole") bold(I)(gamma, p) op("Res") (f, p)`
+        typst: String.raw`1 / (2 pi i) integral.cont_gamma f(z) dif z = sum_(p " pole") bold(I)(gamma, p) op("Res") (f, p)`
     },
     {
         title: "Center of Mass",
-        typst: String.raw`bold(R) = 1/M integral.triple_Q rho(bold(r)) bold(r) d V`
+        typst: String.raw`bold(R) = 1/M integral.triple_Q rho(bold(r)) bold(r) dif V`
     },
     {
         title: "The Fundamental Group of the Circle",
@@ -654,7 +654,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Green's Theorem",
-        typst: String.raw`integral.cont_C (L d x + M d y) = integral.double_D ( (diff M)/(diff x) - (diff L)/(diff y) ) d x d y`
+        typst: String.raw`integral.cont_C (L dif x + M dif y) = integral.double_D ( (diff M)/(diff x) - (diff L)/(diff y) ) dif x dif y`
     },
     {
         title: "Portfolio Variance",
@@ -686,11 +686,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Beta Function",
-        typst: String.raw`B(x,y) = integral_0^1 t^(x-1) (1-t)^(y-1) d t`
+        typst: String.raw`B(x,y) = integral_0^1 t^(x-1) (1-t)^(y-1) dif t`
     },
     {
         title: "Moist Adiabatic Lapse Rate",
-        typst: String.raw`Gamma_"w" = -(d T)/(d z) = g ( (1 + (H_"v" r)/(R_"sd" T)) / (c_"pd" + (H_"v"^2 r)/(R_"sw" T^2)) )`
+        typst: String.raw`Gamma_"w" = -(dif T)/(dif z) = g ( (1 + (H_"v" r)/(R_"sd" T)) / (c_"pd" + (H_"v"^2 r)/(R_"sw" T^2)) )`
     },
     {
         title: "Cardano's Formula",
@@ -702,7 +702,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Riemann Zeta Function",
-        typst: String.raw`zeta(s) = 1/(Gamma(s)) integral_0^infinity (x^(s-1))/(e^x - 1) d x`
+        typst: String.raw`zeta(s) = 1/(Gamma(s)) integral_0^infinity (x^(s-1))/(e^x - 1) dif x`
     },
     {
         title: "Tangent Sum of Angles Formula",
@@ -710,7 +710,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Inner Product of Continuous Complex Valued Functions",
-        typst: String.raw`angle(f, g) = integral_0^(2pi) f(t) overline(g(t)) d t`
+        typst: String.raw`angle(f, g) = integral_0^(2pi) f(t) overline(g(t)) dif t`
     },
     {
         title: "Definition of a Psuedorandom Generator",
@@ -718,11 +718,11 @@ export const formulas: Formula[] = [
     },
     {
         title: "Generalized Stokes' theorem",
-        typst: String.raw`integral_(delta M) omega = integral_M d omega`
+        typst: String.raw`integral_(delta M) omega = integral_M dif omega`
     },
     {
         title: "Cartan's magic formula",
-        typst: String.raw`cal(L)_X = d compose iota_X + iota_X compose d`
+        typst: String.raw`cal(L)_X = dif compose iota_X + iota_X compose dif`
     },
     // Custom, will add more
     {
