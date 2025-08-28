@@ -635,7 +635,7 @@ export const formulas: Formula[] = [
     },
     {
         title: "Residue Theorem",
-        typst: String.raw`1 / (2 pi i) integral.cont_gamma f(z) dif z = sum_(p " pole") bold(I)(gamma, p) op("Res") (f, p)`
+        typst: String.raw`1 / (2 pi i) integral.cont_gamma f(z) dif z = sum_(p "pole") bold(I)(gamma, p) op("Res") (f, p)`
     },
     {
         title: "Center of Mass",
